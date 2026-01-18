@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши милые моменты. Дорогая Лиза, я тебя очень сильно люблю</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffebf3, #ffd6e7, #ffc2db, #ffadcf);
+            color: #d81b60;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(#ff80ab 2px, transparent 3px),
+                radial-gradient(#f48fb1 1px, transparent 2px);
+            background-size: 100px 100px, 50px 50px;
+            background-position: 0 0, 30px 30px;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            width: 100%;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 245, 245, 0.95));
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(216, 27, 96, 0.15);
+            margin-bottom: 30px;
+            border: 3px solid #ff80ab;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(to right, #ff4081, #f50057, #c51162);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #d81b60, #880e4f, #ad1457);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 15px rgba(216, 27, 96, 0.2);
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            color: #880e4f;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .anniversary-counter {
+            background: linear-gradient(145deg, #ff80ab, #f50057);
+            border-radius: 25px;
+            padding: 25px 40px;
+            margin-top: 25px;
+            display: inline-block;
+            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.3);
+            border: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .anniversary-counter::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(145deg, #ff4081, #f50057, #c51162);
+            z-index: -1;
+            filter: blur(15px);
+            opacity: 0.4;
+        }
+
+        .anniversary-counter h2 {
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .photo-viewer {
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            margin: 30px auto;
+            box-shadow: 0 20px 40px rgba(216, 27, 96, 0.25);
+            border-radius: 25px;
+            overflow: hidden;
+            background: linear-gradient(145deg, #fff5f7, #ffeef2);
+            padding: 20px;
+            border: 3px solid #ff80ab;
+        }
+
+        .main-photo {
+            width: 100%;
+            height: 550px;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #ffebee, #fce4ec);
+            position: relative;
+            border: 2px dashed #f8bbd9;
+        }
+
+        .main-photo img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            background-color: white;
+            padding: 5px;
+            border-radius: 15px;
+        }
+
+        .main-photo img:hover {
+            transform: scale(1.03);
+        }
+
+        .photo-title {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            background: rgba(216, 27, 96, 0.85);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 0 0 15px 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .photo-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(145deg, #ff4081, #d81b60);
+            color: white;
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.4);
+            border: 3px solid white;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(145deg, #f50057, #ad1457);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 25px rgba(216, 27, 96, 0.6);
+        }
+
+        .photo-counter {
+            font-size: 1.4rem;
+            color: #d81b60;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 3px solid #f8bbd9;
+            min-width: 180px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2);
+        }
+
+        .thumbnails {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+            padding: 25px;
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            border: 2px solid #f8bbd9;
+            box-shadow: 0 10px 30px rgba(216, 27, 96, 0.15);
+        }
+
+        .thumbnail {
+            width: 130px;
+            height: 100px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+        }
+
+        .thumbnail:hover {
+            opacity: 1;
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(216, 27, 96, 0.3);
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: #d81b60;
+            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail-number {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(216, 27, 96, 0.9);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff4081;
+            font-size: 2rem;
+            animation: float 6s infinite ease-in-out;
+            z-index: 0;
+            filter: drop-shadow(0 3px 5px rgba(216, 27, 96, 0.3));
+        }
+
+        .heart:nth-child(1) {
+            top: 8%;
+            left: 7%;
+            animation-delay: 0s;
+            font-size: 2.5rem;
+        }
+
+        .heart:nth-child(2) {
+            top: 18%;
+            right: 9%;
+            animation-delay: 1.5s;
+            font-size: 1.8rem;
+        }
+
+        .heart:nth-child(3) {
+            bottom: 22%;
+            left: 10%;
+            animation-delay: 2.8s;
+            font-size: 2.2rem;
+        }
+
+        .heart:nth-child(4) {
+            bottom: 12%;
+            right: 12%;
+            animation-delay: 4.2s;
+            font-size: 1.6rem;
+        }
+
+        .heart:nth-child(5) {
+            top: 40%;
+            left: 5%;
+            animation-delay: 3.5s;
+            font-size: 1.9rem;
+        }
+
+        .heart:nth-child(6) {
+            top: 60%;
+            right: 6%;
+            animation-delay: 5.5s;
+            font-size: 2.3rem;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 30px;
+            text-align: center;
+            color: #880e4f;
+            font-size: 1.2rem;
+            width: 100%;
+            border-top: 3px solid #f8bbd9;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 30px rgba(216, 27, 96, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 15px;
+        }
+
+        .love-message {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d81b60;
+            margin-top: 15px;
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #ffebee, #fce4ec);
+            border-radius: 50px;
+            display: inline-block;
+            border: 2px solid #f8bbd9;
+        }
+
+        .signature {
+            font-size: 1.4rem;
+            color: #ad1457;
+            font-weight: 700;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .local-instruction {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 900px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.2);
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+            }
+            33% { 
+                transform: translateY(-20px) rotate(10deg) scale(1.1); 
+            }
+            66% { 
+                transform: translateY(10px) rotate(-5deg) scale(0.95); 
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .header p {
+                font-size: 1.3rem;
+            }
+            
+            .main-photo {
+                height: 400px;
+            }
+            
+            .thumbnails {
+                gap: 12px;
+                padding: 15px;
+            }
+            
+            .thumbnail {
+                width: 110px;
+                height: 85px;
+            }
+            
+            .nav-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .photo-counter {
+                font-size: 1.2rem;
+                padding: 12px 20px;
+                min-width: 150px;
+            }
+            
+            .heart {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .main-photo {
+                height: 300px;
+            }
+            
+            .thumbnail {
+                width: 90px;
+                height: 70px;
+            }
+            
+            .anniversary-counter h2 {
+                font-size: 1.4rem;
+            }
+            
+            .heart {
+                display: none;
+            }
+            
+            .love-message {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart">❤️</div>
+        <div class="heart">💖</div>
+        <div class="heart">💕</div>
+        <div class="heart">💗</div>
+        <div class="heart">💓</div>
+        <div class="heart">💞</div>
+        
+        <header class="header">
+            <h1>Наши милые моменты</h1>
+            <p>Мой котик, этот сайт создан специально для тебя. Каждая фотография это наши с тобой моменты, и любовь что с каждым днем становиться все крепче!</p>
+            
+            <div class="anniversary-counter">
+                <h2>Мы вместе уже целый год! Этот год был самым лучшим, спасибо тебе за это.</h2>
+            </div>
+        </header>
+        
+        <div class="photo-viewer">
+            <div class="main-photo">
+                <img id="mainImage" src="" alt="Наши фото">
+                <div class="photo-title" id="photoTitle">Загрузите фото в папку "photos"</div>
+            </div>
+            
+            <div class="photo-controls">
+                <button class="nav-btn" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="photo-counter">
+                    <span id="currentPhoto">0</span> из <span id="totalPhotos">0</span>
+                </div>
+                
+                <button class="nav-btn" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+
+        <div class="thumbnails" id="thumbnailContainer">
+        </div>
+        
+
+        <footer class="footer">
+            <p>Создано с бесконечной любовью</p>
+            <p class="love-message">Любовь — это не то, что можно найти, это то, что создается вместе ❤️</p>
+            <p class="signature">Твой Котя 💕</p>
+            <p>© Наша история, <span id="currentYear"></span></p>
+        </footer>
+    </div>
+
+    <script>
+        const PHOTOS_FOLDER = 'photos/'; 
+        const PHOTO_COUNT = 25;
+        const PHOTO_TITLES = [
+            "Мой день рождения и счастливые мы)))",
+            "Два милых котика едут в двфу",
+            "Приют Умка. Гладим собачку",
+            "Моя любимая с собакой из приюта",
+            "Наши путешествия",
+            "Наши путешествия",
+            "Наши путешествия",
+            "Наши путишествия. Миленько кусаешь за попу))",
+            "Поход в умами",
+            "Поход в кафе синабоны",
+            "Миленький я",
+            "Миленькие мы))",
+            "Миленькие мы))",
+            "Два солнца, одно сияние",
+            "Поездочка в двфу",
+            "Боулинг и два милых котика))",
+            "Вдвоем — целая вселенная",
+            "Рабочие будни",
+            "Подарок любимой",
+            "Прекрасна - как этот букет",
+            "Две руки - одна судьба",
+            "Самая милая и красивая - моя любимая",
+            "Провожаем старый год, прогулка в центре города с котиком",
+            "Глаза - в которые я сразу влюбился",
+            "Рядом с тобой мой мир обретает смысл."
+        ];
+
+        let currentIndex = 0;
+        const mainImage = document.getElementById('mainImage');
+        const photoTitle = document.getElementById('photoTitle');
+        const currentPhotoElement = document.getElementById('currentPhoto');
+        const totalPhotosElement = document.getElementById('totalPhotos');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        const currentYearElement = document.getElementById('currentYear');
+
+
+        currentYearElement.textContent = new Date().getFullYear();
+
+
+        let availablePhotos = [];
+
+
+        async function findAvailablePhotos() {
+            availablePhotos = [];
+            for (let i = 1; i <= PHOTO_COUNT; i++) {
+                const photoUrl = `${PHOTOS_FOLDER}${i}.jpg`;
+                const isAvailable = await checkImage(photoUrl);
+                
+                if (isAvailable) {
+                    const titleIndex = i - 1;
+                    const title = PHOTO_TITLES[titleIndex] || `Фото ${i}`;
+                    
+                    availablePhotos.push({
+                        url: photoUrl,
+                        title: title,
+                        number: i
+                    });
+                    
+                    console.log(`Найдено фото: ${photoUrl}`);
+                }
+            }
+            
+            console.log(`Всего найдено фото: ${availablePhotos.length}`);
+            return availablePhotos;
+        }
+
+        function checkImage(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = url;
+                
+                setTimeout(() => {
+                    if (!img.complete) resolve(false);
+                }, 100);
+            });
+        }
+
+        function createThumbnails() {
+            thumbnailContainer.innerHTML = '';
+            
+            availablePhotos.forEach((photo, index) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'thumbnail';
+                if (index === currentIndex) thumbnail.classList.add('active');
+                
+                thumbnail.innerHTML = `
+                    <img src="${photo.url}" alt="${photo.title}" loading="lazy">
+                    <div class="thumbnail-number">${photo.number}</div>
+                `;
+                
+                thumbnail.addEventListener('click', () => {
+                    showPhoto(index);
+                });
+                
+                thumbnailContainer.appendChild(thumbnail);
+            });
+            
+            totalPhotosElement.textContent = availablePhotos.length;
+        }
+
+        function showPhoto(index) {
+            if (availablePhotos.length === 0) {
+                photoTitle.textContent = "Нет доступных фото. Загрузите фото в папку 'photos'";
+                mainImage.style.display = 'none';
+                return;
+            }
+            
+            if (index < 0) index = availablePhotos.length - 1;
+            if (index >= availablePhotos.length) index = 0;
+            
+            currentIndex = index;
+            const photo = availablePhotos[index];
+            photoTitle.textContent = photo.title;
+            currentPhotoElement.textContent = index + 1;
+            mainImage.src = photo.url;
+            mainImage.alt = photo.title;
+            mainImage.style.display = 'block';
+            updateActiveThumbnail();
+        }
+
+        function updateActiveThumbnail() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === currentIndex);
+            });
+        }
+        prevBtn.addEventListener('click', () => {
+            showPhoto(currentIndex - 1);
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            showPhoto(currentIndex + 1);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') showPhoto(currentIndex - 1);
+            if (e.key === 'ArrowRight') showPhoto(currentIndex + 1);
+        });
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) showPhoto(currentIndex + 1);
+                else showPhoto(currentIndex - 1);
+            }
+        });
+        let autoplayInterval;
+        function startAutoplay() {
+            if (availablePhotos.length > 1) {
+                autoplayInterval = setInterval(() => {
+                    showPhoto(currentIndex + 1);
+                }, 8000);
+            }
+        }
+        mainImage.addEventListener('mouseenter', () => {
+            if (autoplayInterval) clearInterval(autoplayInterval);
+        });
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log("Поиск локальных фото...");
+            await findAvailablePhotos();
+            
+            if (availablePhotos.length > 0) {
+                createThumbnails();
+                showPhoto(0);
+                startAutoplay();
+                console.log("Готово! Фото загружены.");
+            } else {
+                photoTitle.textContent = "Фото не найдены. Создайте папку 'photos' рядом с этим файлом и добавьте фото (1.jpg, 2.jpg и т.д.)";
+                console.log("Фото не найдены. Следуйте инструкции выше.");
+            }
+        });
+    </script>
+</body>
+</html>
